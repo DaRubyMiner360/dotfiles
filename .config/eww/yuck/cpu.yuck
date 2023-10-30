@@ -1,0 +1,34 @@
+(defvar cpu_reveal false)
+
+(defwidget cpu_meter []
+  (eventbox
+    :onhover "eww update cpu_reveal=true"
+    :onhoverlost "eww update cpu_reveal=false"
+    (box
+      :class "metric left"
+      :space-evenly false
+      (revealer
+        :transition "slideleft"
+        :reveal {cpu_reveal}
+        :duration "350ms"
+        (box :space-evenly false
+          (scale
+            :min 0
+            :max 100
+            :active false
+            :flipped true
+            :value {EWW_CPU.avg}
+          )
+          (label :class "value" :text "${round(EWW_CPU.avg, 1)}%")
+        )
+      )
+      (box 
+        :class "label"
+        (image 
+          :path "images/icons/cpu.svg"
+          :image-height 20 :image-width 20
+        )
+      )
+    )
+  )
+)

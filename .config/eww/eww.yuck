@@ -1,0 +1,106 @@
+(include "./yuck/menu.yuck")
+(include "./yuck/about.yuck")
+(include "./yuck/workspace.yuck")
+
+(include "./yuck/clock.yuck")
+(include "./yuck/date.yuck")
+
+(include "./yuck/music.yuck")
+(include "./yuck/volume.yuck")
+(include "./yuck/vpn.yuck")
+(include "./yuck/network.yuck")
+(include "./yuck/cpu.yuck")
+(include "./yuck/battery.yuck")
+(include "./yuck/tray.yuck")
+(include "./yuck/actions.yuck")
+
+(defvar autohide false)
+
+(defwindow notch :monitor 0 :windowtype "dock" :wm-ignore false :stacking "fg" :exclusive "true"
+  :class "notch"
+  :geometry (geometry 
+    :x "0%" 
+    :y "0%"
+    :width "50%"
+    :height "0.75%"
+    :anchor "top center"
+  )
+  :reserve (struts
+    :distance "1.75%"
+    :side "top"
+  )
+  (eventbox
+    :onhover "eww close notch && eww open bar"
+    (box)
+  )
+)
+
+(defvar about_open false)
+(defwindow bar :monitor 0 :windowtype "dock" :wm-ignore false :stacking "fg" :exclusive "true"
+  :class "bar"
+  :geometry (geometry 
+    :x "0%" 
+    :y "0%"
+    :width "100%"
+    :height "4%"
+    :anchor "top center"
+  )
+  :reserve (struts
+    :distance "5%"
+    :side "top"
+  )
+  (eventbox
+    :onhoverlost "${autohide} && eww close bar && eww open notch"
+    (centerbox :orientation "h"
+      (box 
+        :class "main"
+        :spacing "10"
+        :space-evenly false
+        :halign "start"
+        (box
+          :class "button_panel"
+          :style "padding-left: 1em; padding-right: 1em;"
+          (button 
+            :class "btn ${about_open ? "active" : ""}"
+            :onclick "scripts/toggle.sh menu"
+            (image 
+              :path "icons/arch.svg"
+              :image-width 20 :image-height 20
+            )
+          )
+        )
+        (workspace_switcher)
+      )
+      (box :class "main" :spacing "10" :space-evenly false :hexpand true 
+        (clock)
+      )
+      (box :class "main" :spacing "10" :space-evenly false :halign "end"
+        ;(revealer
+        ;    :transition "slideright"
+        ;    :reveal {music_controls_reveal}
+        ;    :duration "350ms"
+        ;    (music_controls)
+        ;)
+        ;(music)
+        ;(button :class "music_status panel" :onclick "scripts/popout music"
+        ;    (box :space-evenly false :spacing 5
+        ;        (image
+        ;            :path "images/icons/disc.svg"
+        ;            :image-width 20 :image-height 20
+        ;        )
+        ;        song
+        ;        (label :text "-" :class "separator")
+        ;        artist
+        ;    )
+        ;)
+        (volume)
+        (vpn)
+        (network)
+        (cpu_meter)
+        (battery_meter)
+        (tray)
+        (actionsbox)
+      )
+    )
+  )
+)

@@ -1,0 +1,68 @@
+;(defvar music_controls_reveal false)
+
+(defpoll song :interval "1s" `scripts/music --song`)
+(defpoll artist :interval "1s" `scripts/music --artist`)
+(defpoll shuffle_status :interval "250ms" `scripts/music --get-shuffle`)
+(defpoll play_status :interval "250ms" `scripts/music --status`)
+(defpoll loop_status :interval "250ms" `scripts/music --loop-get`)
+
+(defwidget music []
+  (button :class "music_status panel" :onclick "scripts/popout music"
+    (box :space-evenly false :spacing 5
+      (image
+        :path "images/icons/disc.svg"
+        :image-width 20 :image-height 20
+      )
+      song
+      (label :text "-" :class "separator")
+      artist
+    )
+  )
+)
+
+(defwidget music_controls []
+  (box :class "button_panel"
+    (button
+      :class "btn ${shuffle_status == "On" ? "active" : ""}"
+      :onclick "scripts/music --shuffle"
+      (image
+        :path "images/icons/shuffle.svg"
+        :image-width 20 :image-height 20
+      )
+    )
+
+    (button :class "btn" :onclick "scripts/music --previous"
+      (image
+        :path "images/icons/previous_song.svg"
+        :image-width 20 :image-height 20
+      )
+    )
+
+    (button :class "btn" :onclick "scripts/music --toggle"
+      (image 
+        :path "${play_status == "Playing"
+          ? "images/icons/pause.svg" : 
+          "images/icons/play.svg"}" 
+        :image-width 20 :image-height 20
+      )
+    )
+
+    (button :class "btn" :onclick "scripts/music --next"
+      (image
+        :path "images/icons/next_song.svg"
+        :image-width 20 :image-height 20
+      )
+    )
+
+    (button 
+      :class "btn ${loop_status == "Track" ? "active" : ""}"
+      :onclick {loop_status == "Track" 
+        ? "scripts/music --loop-off" : 
+        "scripts/music --loop-on"}
+      (image
+        :path "images/icons/loop.svg"
+        :image-width 20 :image-height 20
+      )
+    )
+  )
+)

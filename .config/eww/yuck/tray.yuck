@@ -1,0 +1,5 @@
+(defwidget tray []
+  (systray :class "tray"
+    ;:pack_direction "ltr"
+  )
+)

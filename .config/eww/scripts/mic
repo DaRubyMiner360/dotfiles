@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [[ $1 == "status" ]]; then
+  wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q " \[MUTED\]" && echo yes || echo no
+fi
+
+if [[ $1 == "toggle" ]]; then
+  wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+fi
+

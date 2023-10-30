@@ -1,0 +1,24 @@
+(defpoll seconds :interval "1s" `date '+%S'`)
+(defpoll minutes :interval "1s" `date '+%M'`)
+(defpoll hours :interval "1m" `date '+%I'`)
+(defpoll ampm :interval "1m" `date '+%p'`)
+
+(defpoll clock_date :interval "1m" `date '+%a %b %d'`)
+
+(defwidget clock []
+  (button :class "hoveronly" :onclick "eww open --toggle date"
+    (box :class "panel clock" :space-evenly false
+      ;(image
+      ;    :path "images/icons/clock.svg"
+      ;    :image-width 20 :image-height 20
+      ;)
+      clock_date
+      (label :text "@" :class "separator")
+      hours
+      (label :text ":" :class "separator")
+      minutes
+      (label :text ":" :class "separator")
+      (label :text "${seconds}  ${ampm}")
+    )
+  )
+)

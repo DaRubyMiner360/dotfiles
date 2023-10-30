@@ -1,0 +1,80 @@
+(defvar vpn_selector_open false)
+(defvar sshuttle_reveal false)
+
+(defwindow vpn_selector
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry
+    :width  "100%"
+    :height "100%"
+    :x "-80%"
+    :anchor "top right"
+  )
+
+  (box
+    :style "margin-right: .75em"
+    :space-evenly false
+    :hexpand true
+    (box
+      :space-evenly false
+      :orientation "v"
+      (box
+        :style "margin: .5em .5em 0 0"
+        :space-evenly false
+        (box
+          :class "vpn_selector"
+          :orientation "v"
+          :space-evenly false
+          (box
+            :orientation "v"
+            :space-evenly false
+            (box
+              :class "top"
+              :space-evenly false
+              (label
+                :class "vpn_type_label"
+                :hexpand true
+                :halign "start"
+                :text "sshuttle"
+              )
+              (eventbox
+                :onclick "eww update sshuttle_reveal=${!sshuttle_reveal}"
+                (revealer
+                  :class "sshuttle"
+                  :transition "slidedown"
+                  :reveal {sshuttle_reveal}
+                  :duration "350ms"
+                  ;
+                )
+              )
+            )
+          )
+        )
+      )
+      (eventbox
+        :vexpand true
+        :onhover "eww open vpn_selector --toggle && eww update vpn_selector_open=${!vpn_selector_open}"
+      )
+    )
+    (eventbox
+      :hexpand true
+      :onhover "eww open vpn_selector --toggle && eww update vpn_selector_open=${!vpn_selector_open}"
+    )
+  )
+)
+
+(defwidget vpn []
+  (box :class "button_panel vpn" :space-evenly false
+    (button 
+      :class "btn ${vpn_selector_open ? "active" : ""}"
+      :onclick "scripts/toggle.sh vpn_selector && eww update vpn_selector_open=${!vpn_selector_open}"
+      (box
+        :class "label"
+        (image 
+          :path "icons/shield.svg"
+          :image-width 20 :image-height 20
+        )
+      )
+    )
+  )
+)

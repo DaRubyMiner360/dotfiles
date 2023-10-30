@@ -1,0 +1,81 @@
+# Some Linux distributions (which are based on others)
+# fail to identify as they **do not** change the upstream
+# distribution's identification packages or files.
+#
+# It is senseless to add a special case in the code for
+# each and every distribution (which _is_ technically no
+# different from what it is based on) as they're either too
+# lazy to modify upstream's identification files or they
+# don't have the know-how (or means) to ship their own
+# lsb-release package.
+#
+# This causes users to think there's a bug in system detection
+# tools like neofetch or pfetch when they technically *do*
+# function correctly.
+#
+# Exceptions are made for distributions which are independent,
+# not based on another distribution or follow different
+# standards.
+#
+# This applies only to distributions which follow the standard
+# by shipping unmodified identification files and packages
+# from their respective upstreams.
+if command -v lsb_release > /dev/null; then
+    distro=$(lsb_release -sd)
+
+elif [ -f /etc/os-release ]; then
+    # This used to be a simple '. /etc/os-release' but I believe
+    # this is insecure as we blindly executed whatever was in the
+    # file. This parser instead simply handles 'key=val', treating
+    # the file contents as plain-text.
+    while IFS='=' read -r key val; do
+        case $key in
+            (PRETTY_NAME)
+                distro=$val
+            ;;
+        esac
+    done < /etc/os-release
+
+else
+    distro="Linux $(uname -r)"
+fi
+
+# 'os-release' and 'lsb_release' sometimes add quotes
+# around the distribution name, strip them.
+distro=${distro##[\"\']}
+distro=${distro%%[\"\']}
+
+# Check to see if we're running Bedrock Linux which is
+# very unique. This simply checks to see if the user's
+# PATH contains a Bedrock specific value.
+case $PATH in
+    (*/bedrock/cross/*)
+        distro='Bedrock Linux'
+    ;;
+esac
+
+# Check to see if Linux is running in Windows 10 under
+# WSL1 (Windows subsystem for Linux [version 1]) and
+# append a string accordingly.
+#
+# If the kernel version string ends in "-Microsoft",
+# we're very likely running under Windows 10 in WSL1.
+if [ "$WSLENV" ]; then
+    distro="${distro}${WSLENV+ on Windows 10 [WSL2]}"
+
+# Check to see if Linux is running in Windows 10 under
+# WSL2 (Windows subsystem for Linux [version 2]) and
+# append a string accordingly.
+#
+# This checks to see if '$WSLENV' is defined. This
+# appends the Windows 10 string even if '$WSLENV' is
+# empty. We only need to check that is has been _exported_.
+else 
+    case "$kernel" in
+        *-Microsoft)
+            distro="$distro on Windows 10 [WSL1]"
+        ;;
+    esac
+fi
+
+echo $distro

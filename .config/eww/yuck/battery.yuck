@@ -1,0 +1,47 @@
+(defvar battery_reveal false)
+
+(defwidget battery_meter []
+  (eventbox
+    :onhover "eww update battery_reveal=true"
+    :onhoverlost "eww update battery_reveal=false"
+    (box
+      :class "metric left"
+      :space-evenly false
+      (revealer
+        :transition "slideleft"
+        :reveal {battery_reveal}
+        :duration "350ms"
+        (box :space-evenly false
+          (scale
+            :min 0
+            :max 100
+            :active false
+            :flipped true
+            :value {EWW_BATTERY.BAT0.capacity}
+          )
+          (label :class "value" :text "${EWW_BATTERY.BAT0.capacity}%")
+        )
+      )
+      (box 
+        :class "label"
+        (image 
+          :path "${"${EWW_BATTERY.BAT0.status}" == "Charging" 
+            ? "icons/battery-charging.svg" : 
+            (
+              "${"${EWW_BATTERY.BAT0.capacity}" <= 30 
+                ? "icons/battery-dead.svg" : 
+                (
+                  "${"${EWW_BATTERY.BAT0.capacity}" <= 70 
+                    ? "icons/battery-half.svg" : 
+                    "icons/battery-full.svg"
+                  }"
+                )
+              }"
+            )
+          }"
+          :image-height 20 :image-width 20
+        )
+      )
+    )
+  )
+)

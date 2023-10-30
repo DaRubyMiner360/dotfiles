@@ -1,0 +1,45 @@
+; A dynamic volume control that opens & closes with hover
+
+(defvar volume_reveal false)
+(defpoll volume :interval "50ms" :initial 0 `scripts/getvol`)
+(defpoll muted :interval "50ms" `[ "$(wpctl get-volume @DEFAULT_SINK@ | tr -d -c '[MUTED]')" = "[MUTED]" ] && echo true || echo false`)
+
+(defwidget volume []
+  (eventbox
+    :onhover "eww update volume_reveal=true" 
+    :onhoverlost "eww update volume_reveal=false" 
+    (box
+      :orientation "h"
+      :class "metric left"
+      :space-evenly false
+      (revealer 
+        :transition "slideleft" 
+        :reveal {volume_reveal}
+        :duration "350ms"
+        (box :space-evenly false
+          (scale
+            :min 0
+            :max 101
+            :active true
+            :flipped true
+            :value {volume + 0}
+            :onchange "wpctl set-volume @DEFAULT_SINK@ {}%"
+          )
+          (label :class "value" :text "${volume + 0}%")
+        )
+      )
+      (box 
+        :class "label"
+        (image 
+          :path {volume == 0 || muted == "true" 
+            ? "images/icons/volume-x.svg" : 
+            volume < 50 
+              ? "images/icons/volume-1.svg" : 
+              "images/icons/volume-2.svg"}
+          :image-width 20
+          :image-height 20
+        )
+      ) 
+    )
+  )
+)

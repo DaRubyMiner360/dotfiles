@@ -1,0 +1,21 @@
+[borders-plus-plus]
+description ="A plugin to add more borders to windows."
+version = "1.0"
+author = "Vaxry"
+
+[borders-plus-plus.build]
+output = "borders-plus-plus/borders-plus-plus.so"
+steps = [
+    "make -C borders-plus-plus all",
+]
+
+[hyprbars]
+description = "A plugin to add title bars to windows"
+version = "1.0"
+author = "Vaxry"
+
+[hyprbars.build]
+output = "hyprbars/hyprbars.so"
+steps = [
+    "make -C hyprbars all",
+]

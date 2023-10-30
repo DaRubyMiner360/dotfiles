@@ -1,0 +1,32 @@
+(defpoll ssid 
+  :initial "Offline"
+  :interval "5s" `scripts/check_net --stat`)
+(defpoll net_icon
+  :initial "images/icons/wifi_off.svg" 
+  :interval "5s" `scripts/check_net --icon`)
+(defvar net_reveal false)
+
+(defwidget network []
+  (eventbox
+    :onhover "eww update net_reveal=true"
+    :onhoverlost "eww update net_reveal=false"
+    (box
+      :class "panel network"
+      :space-evenly false
+      (revealer
+        :transition "slideleft"
+        :reveal {net_reveal}
+        :duration "350ms"
+        (label
+          :text {ssid}
+          :class "label"
+        )
+      )
+      (image
+        :path net_icon
+        :image-width 20
+        :image-height 20
+      )
+    )
+  )
+)

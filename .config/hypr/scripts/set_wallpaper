@@ -1,0 +1,48 @@
+#!/bin/bash
+
+DIR="${HOME}/.config/hypr/wallpapers"
+
+TRANSITION_TYPE="any"
+TRANSITION_DURATION_MIN=0.5
+TRANSITION_DURATION_MAX=2.5
+TRANSITION_DURATION_INCREMENT=0.01
+TRANSITION_FPS=255
+TRANSITION_STEP=255
+
+# Only used for some transition types
+TRANSITION_ANGLE_MIN=0
+TRANSITION_ANGLE_MAX=360
+TRANSITION_ANGLE_INCREMENT=45
+
+# Only used for the "wave" transition type
+TRANSITION_WAVE_MIN=0
+TRANSITION_WAVE_MAX=180
+TRANSITION_WAVE_INCREMENT=0.01
+
+if [ $# -lt 1 ] || [ "$1" = "" ]; then
+  bg="$(find "$DIR" -name '*.jpg' -o -name '*.png' | shuf -n1)"
+else
+  bg="$1"
+fi
+transition_duration=$(seq $TRANSITION_DURATION_MIN $TRANSITION_DURATION_INCREMENT $TRANSITION_DURATION_MAX | shuf | head -n1)
+transition_angle=$(seq $TRANSITION_ANGLE_MIN $TRANSITION_ANGLE_INCREMENT $TRANSITION_ANGLE_MAX | shuf | head -n1)
+transition_wave_x=$(seq $TRANSITION_WAVE_MIN $TRANSITION_WAVE_INCREMENT $TRANSITION_WAVE_MAX | shuf | head -n1)
+transition_wave_y=$(seq $TRANSITION_WAVE_MIN $TRANSITION_WAVE_INCREMENT $TRANSITION_WAVE_MAX | shuf | head -n1)
+
+if [ $# -lt 2 ] || [ "$2" = "" ]; then
+  fill_color_flag=""
+else
+  fill_color_flag="--fill-color $2"
+fi
+
+if [ $# -lt 3 ] || [ "$3" = "" ]; then
+  outputs_flag=""
+else
+  outputs_flag="--outputs $3"
+fi
+
+rm -f ~/.cache/current_wallpaper.jpg
+cp "$bg" ~/.cache/current_wallpaper.jpg
+
+swww init 2> /dev/null
+swww img "$bg" --transition-type $TRANSITION_TYPE --transition-duration $transition_duration --transition-fps $TRANSITION_FPS --transition-step $TRANSITION_STEP --transition-angle $transition_angle --transition-wave $transition_wave_x,$transition_wave_y $fill_color_flag $outputs_flag
