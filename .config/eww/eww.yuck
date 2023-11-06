@@ -94,7 +94,7 @@
         ;    )
         ;)
         (volume)
-        (vpn)
+        ;; (vpn)
         (network)
         (cpu_meter)
         (battery_meter)

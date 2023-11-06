@@ -3,23 +3,26 @@
 import sys
 import subprocess
 
-import click
 from pydbus import SessionBus
 
 # dbus setup
 bus = SessionBus()
 svc_proxy = bus.get('net.zoidplex.wlr_gamma_service',
-        '/net/zoidplex/wlr_gamma_service')
+                    '/net/zoidplex/wlr_gamma_service')
 brightnessctl = svc_proxy['net.zoidplex.wlr_gamma_service.brightness']
+
 
 def get_gamma():
     return round(brightnessctl.get(), 2)
 
+
 def set_gamma(gamma):
     return round(brightnessctl.set(gamma), 2)
 
+
 def run_command(command):
     return subprocess.run(command, stdout=subprocess.PIPE, shell=True).stdout.decode('utf-8')[:-1]
+
 
 def do_operation(first, sign, second):
     if sign == '=':
@@ -28,8 +31,10 @@ def do_operation(first, sign, second):
         return first - second
     return first + second
 
+
 def combined_percent(brightness, gamma):
     return round((brightness + (gamma * 50)) / 3 * 2)
+
 
 def separated_percent(combined):
     if combined == 0:
@@ -37,6 +42,7 @@ def separated_percent(combined):
     if combined > 33:
         return (min(round((combined - 33) / 2 * 3), 100), 1.00)
     return (1, float(combined / 2 * 3 / 50))
+
 
 current = run_command("brightnessctl -m | cut -d, -f4")
 current_value = int(current[:-1])
@@ -78,7 +84,8 @@ elif current_value == 0 and change_type == "+":
 else:
     if gamma == 0.99 and change_type == "+":
         set_gamma(1.0)
-        run_command("brightnessctl set " + str(change_value - 1) + "%" + change_type)
+        run_command("brightnessctl set " +
+                    str(change_value - 1) + "%" + change_type)
     else:
         if change_value > 5:
             amount = 0.2
