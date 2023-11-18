@@ -124,12 +124,7 @@ return {
 			mods = "CTRL|SHIFT",
 			action = wezterm.action({ ActivateTabRelative = -1 }),
 		}, -- standard copy/paste bindings
-		--{
-		--	key = "x",
-		--	mods = "CTRL",
-		--	action = "ActivateCopyMode",
-		--},
-		{
+    {
 			key = "v",
 			mods = "CTRL|SHIFT",
 			action = wezterm.action({ PasteFrom = "Clipboard" }),

@@ -1,3 +1,10 @@
+plugins = [
+    # Installs the plugin from https://github.com/Duckonaut/split-monitor-workspaces
+    "Duckonaut/split-monitor-workspaces",
+    # "hyprwm/hyprland-plugins",
+    "hyprtrails"
+]
+
 [borders-plus-plus]
 description ="A plugin to add more borders to windows."
 version = "1.0"
@@ -18,4 +25,15 @@ author = "Vaxry"
 output = "hyprbars/hyprbars.so"
 steps = [
     "make -C hyprbars all",
+]
+
+[hyprtrails]
+description = "A plugin to add trails behind moving windows"
+version = "1.0"
+authors = ["Vaxry"]
+
+[hyprtrails.build]
+output = "hyprtrails/hyprtrails.so"
+steps = [
+    "make -C hyprtrails all",
 ]
