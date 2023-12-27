@@ -6,7 +6,7 @@
 (defpoll clock_date :interval "1m" `date '+%a %b %d'`)
 
 (defwidget clock []
-  (button :class "hoveronly" :onclick "eww open --toggle date"
+  (button :class "hoveronly" :onclick "scripts/toggle.sh date"
     (box :class "panel clock" :space-evenly false
       ;(image
       ;    :path "images/icons/clock.svg"

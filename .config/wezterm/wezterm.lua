@@ -133,7 +133,43 @@ return {
 			key = "c",
 			mods = "CTRL|SHIFT",
 			action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }),
-		},
+		}, -- font size bindings
+    {
+      key = "=",
+      mods = "CTRL",
+      action = wezterm.action.IncreaseFontSize
+    },
+    {
+      key = "+",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.IncreaseFontSize
+    },
+    {
+      key = "-",
+      mods = "CTRL",
+      action = wezterm.action.DecreaseFontSize
+    },
+    {
+      key = "_",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.DecreaseFontSize
+    },
+    
+    {
+      key = "Backspace",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.ResetFontSize
+    },
+    {
+      key = "0",
+      mods = "CTRL",
+      action = wezterm.action.ResetFontSize
+    },
+    {
+      key = ")",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.ResetFontSize
+    },
 	},
 
 	-- Aesthetic Night Colorscheme
@@ -158,4 +194,5 @@ return {
 	--window_background_opacity = 0.5,
 	window_close_confirmation = "NeverPrompt",
   window_frame = { active_titlebar_bg = "#45475a", font = font_with_fallback(font_name, { bold = true }) },
+  window_decorations = "RESIZE",
 }

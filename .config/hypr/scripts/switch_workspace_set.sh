@@ -11,6 +11,6 @@ for i in {1..10}; do
   fi
   hyprctl keyword unbind $mod_key, $key
   hyprctl keyword unbind $mod_key SHIFT, $key
-  hyprctl keyword bind $mod_key, $key, workspace, $workspace
-  hyprctl keyword bind $mod_key SHIFT, $key, movetoworkspace, $workspace
+  hyprctl keyword bind $mod_key, $key, split-workspace, $workspace
+  hyprctl keyword bind $mod_key SHIFT, $key, split-movetoworkspace, $workspace
 done

@@ -1,16 +1,23 @@
-(defvar vpn_selector_open false)
-(defvar sshuttle_reveal false)
+(defvar vpn_selector_open -1)
+(defvar sshuttle_reveal -1)
 
-(defwindow vpn_selector
-  :monitor 0
-  :stacking "fg"
-  :geometry (geometry
-    :width  "100%"
-    :height "100%"
-    :x "-80%"
-    :anchor "top right"
+(defwidget vpn [monitor]
+  (box :class "button_panel vpn" :space-evenly false
+    (button 
+      :class "btn ${vpn_selector_open == monitor ? "active" : ""}"
+      :onclick "scripts/toggle.sh vpn_selector"
+      (box
+        :class "label"
+        (image 
+          :path "icons/shield.svg"
+          :image-width 20 :image-height 20
+        )
+      )
+    )
   )
+)
 
+(defwidget vpn_selector [monitor]
   (box
     :style "margin-right: .75em"
     :space-evenly false
@@ -38,11 +45,11 @@
                 :text "sshuttle"
               )
               (eventbox
-                :onclick "eww update sshuttle_reveal=${!sshuttle_reveal}"
+                :onclick "eww update sshuttle_reveal=${sshuttle_reveal != -1 ? -1 : monitor}"
                 (revealer
                   :class "sshuttle"
                   :transition "slidedown"
-                  :reveal {sshuttle_reveal}
+                  :reveal {sshuttle_reveal == monitor}
                   :duration "350ms"
                   ;
                 )
@@ -53,28 +60,38 @@
       )
       (eventbox
         :vexpand true
-        :onhover "eww open vpn_selector --toggle && eww update vpn_selector_open=${!vpn_selector_open}"
+        :onhover "scripts/toggle.sh vpn_selector"
       )
     )
     (eventbox
       :hexpand true
-      :onhover "eww open vpn_selector --toggle && eww update vpn_selector_open=${!vpn_selector_open}"
+      :onhover "scripts/toggle.sh vpn_selector"
     )
   )
 )
 
-(defwidget vpn []
-  (box :class "button_panel vpn" :space-evenly false
-    (button 
-      :class "btn ${vpn_selector_open ? "active" : ""}"
-      :onclick "scripts/toggle.sh vpn_selector && eww update vpn_selector_open=${!vpn_selector_open}"
-      (box
-        :class "label"
-        (image 
-          :path "icons/shield.svg"
-          :image-width 20 :image-height 20
-        )
-      )
-    )
+;; Windows for each monitor (Add more if you have more monitors)
+
+(defwindow vpn_selector0
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry
+    :width  "100%"
+    :height "100%"
+    :x "-80%"
+    :anchor "top right"
   )
+  (vpn_selector :monitor 0)
+)
+
+(defwindow vpn_selector1
+  :monitor 1
+  :stacking "fg"
+  :geometry (geometry
+    :width  "100%"
+    :height "100%"
+    :x "-80%"
+    :anchor "top right"
+  )
+  (vpn_selector :monitor 1)
 )

@@ -56,7 +56,9 @@
   )
 )
 
-(defwindow date
+;; Windows for each monitor (Add more if you have more monitors)
+
+(defwindow date0
   :monitor 0
   :geometry (geometry :x "0px"
                       :y "6px"
@@ -64,5 +66,16 @@
                       :height "10px"
                       :anchor "center top")
   :wm-ignore true
-(date))
+  (date)
+)
 
+(defwindow date1
+  :monitor 1
+  :geometry (geometry :x "0px"
+                      :y "6px"
+                      :width "10px"
+                      :height "10px"
+                      :anchor "center top")
+  :wm-ignore true
+  (date)
+)

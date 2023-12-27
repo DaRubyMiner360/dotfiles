@@ -1,4 +1,4 @@
-(defpoll    uptime      :interval "1s" "scripts/uptime")
+(defpoll uptime :interval "1s" "scripts/uptime")
 
 (defpoll user :interval "1s" `getent passwd $(whoami) | cut -d ':' -f 5 | cut -d ',' -f 1`)
 
@@ -8,14 +8,9 @@
 (defpoll shell :interval "300s" `echo $SHELL | awk -F '/' '{print $NF}'`)
 (defpoll wm :interval "300s" `echo $XDG_CURRENT_DESKTOP`)
 
-(defwindow menu
-  :monitor 0
-  :stacking "fg"
-  :geometry (geometry
-    :width  "100%"
-    :height "100%"
-    :anchor "top left"
-  )
+(defvar about_open -1)
+
+(defwidget about []
   (box
     :style "margin-left: .75em"
     :space-evenly false
@@ -42,7 +37,7 @@
               (eventbox
                 :cursor "pointer"
                 :halign "end"
-                :onclick "scripts/toggle.sh menu"
+                :onclick "scripts/toggle.sh about"
                 (image
                   :path "icons/close.svg"
                   :image-width 45
@@ -126,12 +121,36 @@
       )
       (eventbox
         :vexpand true
-        :onhover "eww open menu --toggle"
+        :onhover "scripts/toggle.sh about"
       )
     )
     (eventbox
       :hexpand true
-      :onhover "eww open menu --toggle"
+      :onhover "scripts/toggle.sh about"
     )
   )
+)
+
+;; Windows for each monitor (Add more if you have more monitors)
+
+(defwindow about0
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry
+    :width  "100%"
+    :height "100%"
+    :anchor "top left"
+  )
+  (about)
+)
+
+(defwindow about1
+  :monitor 1
+  :stacking "fg"
+  :geometry (geometry
+    :width  "100%"
+    :height "100%"
+    :anchor "top left"
+  )
+  (about)
 )

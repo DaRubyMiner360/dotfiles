@@ -1,11 +1,13 @@
 (deflisten workspaces :initial "[]" "~/.config/eww/scripts/get-workspaces")
-(defwidget workspace_switcher []
+
+(defwidget workspace_switcher [monitor]
   (box :class "button_panel" :orientation "h"
     (for ws in workspaces
       (button 
+        :visible {ws.monitorID == monitor}
         :class "btn ${ws.active ? "active" : ""}"
         :onclick "hyprctl dispatch workspace ${ws.id}"
-        "${ws.id}"
+        "${(ws.id - 1) % 100 + 1}"
       )
     )
   )

@@ -24,7 +24,7 @@
 (defpoll mic_status :interval "1s" "~/.config/eww/scripts/mic status")
 
 (defwidget actionsbox []
-  (button :class "actionsbox hoveronly" :onclick "eww open --toggle actions"
+  (button :class "actionsbox hoveronly" :onclick "scripts/toggle.sh actions"
     ;(box :orientation "h"
     ;    :space-evenly false
     ;    :spacing 13
@@ -266,7 +266,9 @@
   )
 )
 
-(defwindow actions
+;; Windows for each monitor (Add more if you have more monitors)
+
+(defwindow actions0
   :monitor 0
   :geometry (geometry :x "6px"
                       :y "6px"
@@ -275,4 +277,17 @@
                       :anchor "top right")
   :type "dock"
   :wm-ignore true
-(actions))
+  (actions)
+)
+
+(defwindow actions1
+  :monitor 1
+  :geometry (geometry :x "6px"
+                      :y "6px"
+                      :width "320px"
+                      :height "10px"
+                      :anchor "top right")
+  :type "dock"
+  :wm-ignore true
+  (actions)
+)

@@ -1,15 +1,15 @@
-(defvar cpu_reveal false)
+(defvar cpu_reveal -1)
 
-(defwidget cpu_meter []
+(defwidget cpu_meter [monitor]
   (eventbox
-    :onhover "eww update cpu_reveal=true"
-    :onhoverlost "eww update cpu_reveal=false"
+    :onhover "eww update cpu_reveal=${monitor}"
+    :onhoverlost "eww update cpu_reveal=-1"
     (box
       :class "metric left"
       :space-evenly false
       (revealer
         :transition "slideleft"
-        :reveal {cpu_reveal}
+        :reveal {cpu_reveal == monitor}
         :duration "350ms"
         (box :space-evenly false
           (scale

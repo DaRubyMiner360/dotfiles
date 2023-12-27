@@ -1,7 +1,7 @@
 #!/bin/bash
 
 spaces (){
-  hyprctl workspaces -j | jq -rc '[.[].id | select(. > 0)] | sort_by(.) | {id:(.[]),active:false}' | jq -s . | jq -rc "(.[] | select(.id == $(hyprctl activeworkspace -j | jq -r '.name')) .active) |= true"
+  hyprctl workspaces -j | jq -rc "[.[] | select(.id > 0)] | sort_by(.id) | .[] | {id:(.id),active:false,monitorID:(.monitorID)}" | jq -s . | jq -rc "(.[] | select(.id as \$id | ($(hyprctl monitors -j | jq -r '[.[].activeWorkspace.id]') | contains([\$id]))) .active) |= true"
 }
 
 spaces

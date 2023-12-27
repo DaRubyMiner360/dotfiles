@@ -1,0 +1,92 @@
+(defvar autohide false)
+
+(defwidget bar [monitor]
+  (eventbox
+    :onhoverlost "${autohide} && eww close bar${monitor} && eww open notch${monitor}"
+    (centerbox
+      :class "bar"
+      :orientation "h"
+      (box 
+        :class "main"
+        :spacing "10"
+        :space-evenly false
+        :halign "start"
+        (box
+          :class "button_panel"
+          :style "padding-left: 1em; padding-right: 1em;"
+          (button 
+            :class "btn ${about_open == monitor ? "active" : ""}"
+            :onclick "scripts/toggle.sh about"
+            (image 
+              :path "icons/arch.svg"
+              :image-width 20 :image-height 20
+            )
+          )
+        )
+        (workspace_switcher :monitor monitor)
+      )
+      (box :class "main" :spacing "10" :space-evenly false :hexpand true 
+        (clock)
+      )
+      (box :class "main" :spacing "10" :space-evenly false :halign "end"
+        ;(revealer
+        ;    :transition "slideright"
+        ;    :reveal {music_controls_reveal}
+        ;    :duration "350ms"
+        ;    (music_controls)
+        ;)
+        ;(music)
+        ;(button :class "music_status panel" :onclick "scripts/popout music"
+        ;    (box :space-evenly false :spacing 5
+        ;        (image
+        ;            :path "images/icons/disc.svg"
+        ;            :image-width 20 :image-height 20
+        ;        )
+        ;        song
+        ;        (label :text "-" :class "separator")
+        ;        artist
+        ;    )
+        ;)
+        (volume :monitor monitor)
+        ;; (vpn :monitor monitor)
+        (network :monitor monitor)
+        (cpu_meter :monitor monitor)
+        (battery_meter :monitor monitor)
+        (tray)
+        (actionsbox)
+      )
+    )
+  )
+)
+
+;; Windows for each monitor (Add more if you have more monitors)
+
+(defwindow bar0 :monitor 0 :windowtype "dock" :wm-ignore false :stacking "fg" :exclusive "true"
+  :geometry (geometry 
+    :x "0%" 
+    :y "0%"
+    :width "100%"
+    :height "40px"
+    :anchor "top center"
+  )
+  :reserve (struts
+    :distance "5%"
+    :side "top"
+  )
+  (bar :monitor 0)
+)
+
+(defwindow bar1 :monitor 1 :windowtype "dock" :wm-ignore false :stacking "fg" :exclusive "true"
+  :geometry (geometry 
+    :x "0%" 
+    :y "0%"
+    :width "100%"
+    :height "40px"
+    :anchor "top center"
+  )
+  :reserve (struts
+    :distance "5%"
+    :side "top"
+  )
+  (bar :monitor 1)
+)

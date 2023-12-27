@@ -1,20 +1,18 @@
-; A dynamic volume control that opens & closes with hover
-
-(defvar volume_reveal false)
+(defvar volume_reveal -1)
 (defpoll volume :interval "50ms" :initial 0 `scripts/getvol`)
 (defpoll muted :interval "50ms" `[ "$(wpctl get-volume @DEFAULT_SINK@ | tr -d -c '[MUTED]')" = "[MUTED]" ] && echo true || echo false`)
 
-(defwidget volume []
+(defwidget volume [monitor]
   (eventbox
-    :onhover "eww update volume_reveal=true" 
-    :onhoverlost "eww update volume_reveal=false" 
+    :onhover "eww update volume_reveal=${monitor}" 
+    :onhoverlost "eww update volume_reveal=-1" 
     (box
       :orientation "h"
       :class "metric left"
       :space-evenly false
       (revealer 
         :transition "slideleft" 
-        :reveal {volume_reveal}
+        :reveal {volume_reveal == monitor}
         :duration "350ms"
         (box :space-evenly false
           (scale

@@ -1,0 +1,40 @@
+(defwidget notch [monitor]
+  (eventbox
+    :onhover "eww close notch${monitor} && eww open bar${monitor}"
+    (box)
+  )
+)
+
+;; Windows for each monitor (Add more if you have more monitors)
+
+(defwindow notch0 :monitor 0 :windowtype "dock" :wm-ignore false :stacking "fg" :exclusive "true"
+  :class "notch"
+  :geometry (geometry 
+    :x "0%" 
+    :y "0%"
+    :width "50%"
+    :height "0.75%"
+    :anchor "top center"
+  )
+  :reserve (struts
+    :distance "1.75%"
+    :side "top"
+  )
+  (notch :monitor 0)
+)
+
+(defwindow notch1 :monitor 1 :windowtype "dock" :wm-ignore false :stacking "fg" :exclusive "true"
+  :class "notch"
+  :geometry (geometry 
+    :x "0%" 
+    :y "0%"
+    :width "50%"
+    :height "0.75%"
+    :anchor "top center"
+  )
+  :reserve (struts
+    :distance "1.75%"
+    :side "top"
+  )
+  (notch :monitor 1)
+)

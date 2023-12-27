@@ -4,18 +4,18 @@
 (defpoll net_icon
   :initial "images/icons/wifi_off.svg" 
   :interval "5s" `scripts/check_net --icon`)
-(defvar net_reveal false)
+(defvar net_reveal -1)
 
-(defwidget network []
+(defwidget network [monitor]
   (eventbox
-    :onhover "eww update net_reveal=true"
-    :onhoverlost "eww update net_reveal=false"
+    :onhover "eww update net_reveal=${monitor}"
+    :onhoverlost "eww update net_reveal=-1"
     (box
       :class "panel network"
       :space-evenly false
       (revealer
         :transition "slideleft"
-        :reveal {net_reveal}
+        :reveal {net_reveal == monitor}
         :duration "350ms"
         (label
           :text {ssid}

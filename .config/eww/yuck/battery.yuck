@@ -1,15 +1,16 @@
-(defvar battery_reveal false)
+(defvar battery_reveal -1)
+(defpoll battery_info :interval "5s" :initial 0 `scripts/get_first_available_battery.sh`)
 
-(defwidget battery_meter []
+(defwidget battery_meter [monitor]
   (eventbox
-    :onhover "eww update battery_reveal=true"
-    :onhoverlost "eww update battery_reveal=false"
+    :onhover "eww update battery_reveal=${monitor}"
+    :onhoverlost "eww update battery_reveal=-1"
     (box
       :class "metric left"
       :space-evenly false
       (revealer
         :transition "slideleft"
-        :reveal {battery_reveal}
+        :reveal {battery_reveal == monitor}
         :duration "350ms"
         (box :space-evenly false
           (scale
@@ -17,21 +18,21 @@
             :max 100
             :active false
             :flipped true
-            :value {EWW_BATTERY.BAT0.capacity}
+            :value {jq(battery_info, ".capacity")}
           )
-          (label :class "value" :text "${EWW_BATTERY.BAT0.capacity}%")
+          (label :class "value" :text {replace(jq(battery_info, ".text"), "\"", "")})
         )
       )
       (box 
         :class "label"
         (image 
-          :path "${"${EWW_BATTERY.BAT0.status}" == "Charging" 
+          :path "${"${replace(jq(battery_info, ".status"), "\"", "")}" == "Charging" 
             ? "icons/battery-charging.svg" : 
             (
-              "${"${EWW_BATTERY.BAT0.capacity}" <= 30 
+              "${"${jq(battery_info, ".capacity")}" <= 30 
                 ? "icons/battery-dead.svg" : 
                 (
-                  "${"${EWW_BATTERY.BAT0.capacity}" <= 70 
+                  "${"${jq(battery_info, ".capacity")}" <= 70 
                     ? "icons/battery-half.svg" : 
                     "icons/battery-full.svg"
                   }"
