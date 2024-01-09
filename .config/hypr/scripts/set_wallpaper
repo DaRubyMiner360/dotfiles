@@ -41,8 +41,7 @@ else
   outputs_flag="--outputs $3"
 fi
 
-rm -f ~/.cache/current_wallpaper.jpg
-cp "$bg" ~/.cache/current_wallpaper.jpg
+\cp "$bg" ~/.cache/current_wallpaper.jpg
 
-swww init 2> /dev/null
+swww init --no-cache 2> /dev/null
 swww img "$bg" --transition-type $TRANSITION_TYPE --transition-duration $transition_duration --transition-fps $TRANSITION_FPS --transition-step $TRANSITION_STEP --transition-angle $transition_angle --transition-wave $transition_wave_x,$transition_wave_y $fill_color_flag $outputs_flag
