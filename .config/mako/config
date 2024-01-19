@@ -3,10 +3,12 @@ max-history=100
 sort=-time
 
 # BINDING OPTIONS
-on-button-left=dismiss
-on-button-middle=none
+# on-button-left=dismiss
+on-button-left=exec bash ~/.config/mako/click_actions.sh $id
+on-button-middle=dismiss
 on-button-right=dismiss-all
-on-touch=dismiss
+# on-touch=dismiss
+on-touch=exec bash ~/.config/mako/click_actions.sh $id
 on-notify=exec mpv /usr/share/sounds/freedesktop/stereo/message.oga
 
 # STYLE OPTIONS
