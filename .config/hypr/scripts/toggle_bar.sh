@@ -1,7 +1,7 @@
 #!/bin/bash
 
 opened=false
-if [[ "$(eww windows)" =~ "*bar0" ]] || [[ "$(eww windows)" =~ "*notch0" ]]; then
+if [[ "$(eww active-windows)" =~ "bar0:" ]] || [[ "$(eww active-windows)" =~ "notch0:" ]]; then
   opened=true
 fi
 

@@ -18,21 +18,21 @@
             :max 100
             :active false
             :flipped true
-            :value {jq(battery_info, ".capacity")}
+            :value {battery_info.capacity}
           )
-          (label :class "value" :text {replace(jq(battery_info, ".text"), "\"", "")})
+          (label :class "value" :text {battery_info.text})
         )
       )
       (box 
         :class "label"
         (image 
-          :path "${"${replace(jq(battery_info, ".status"), "\"", "")}" == "Charging" 
+          :path "${battery_info.status == "Charging" 
             ? "icons/battery-charging.svg" : 
             (
-              "${"${jq(battery_info, ".capacity")}" <= 30 
+              "${battery_info.capacity <= 30 
                 ? "icons/battery-dead.svg" : 
                 (
-                  "${"${jq(battery_info, ".capacity")}" <= 70 
+                  "${battery_info.capacity <= 70 
                     ? "icons/battery-half.svg" : 
                     "icons/battery-full.svg"
                   }"
