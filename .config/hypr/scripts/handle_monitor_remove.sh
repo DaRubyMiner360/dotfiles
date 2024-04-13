@@ -27,8 +27,8 @@ while true; do
     # for id in $(echo $removed_monitors | jq -r '.[]'); do
     # done
 
-    if pgrep "swww" > /dev/null && [ -f ~/.cache/current_wallpaper.jpg ]; then
-      ~/.config/hypr/scripts/set_wallpaper ~/.cache/current_wallpaper.jpg & disown
+    if pgrep "swww" > /dev/null && [ -f ~/.cache/current_wallpaper.png ]; then
+      ~/.config/hypr/scripts/set_wallpaper ~/.cache/current_wallpaper.png & disown
     else
       ~/.config/hypr/scripts/set_wallpaper & disown
     fi

@@ -32,8 +32,8 @@ while true; do
     # Just in case the bar is acting up on the new monitor, reload eww
     eww reload
 
-    if pgrep "swww" > /dev/null && [ -f ~/.cache/current_wallpaper.jpg ]; then
-      ~/.config/hypr/scripts/set_wallpaper ~/.cache/current_wallpaper.jpg & disown
+    if pgrep "swww" > /dev/null && [ -f ~/.cache/current_wallpaper.png ]; then
+      ~/.config/hypr/scripts/set_wallpaper ~/.cache/current_wallpaper.png & disown
     else
       ~/.config/hypr/scripts/set_wallpaper & disown
     fi
