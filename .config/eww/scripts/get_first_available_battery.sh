@@ -14,4 +14,4 @@ if [ ! -z "$batteries" ]; then
   status="$(cat /sys/class/power_supply/$first_battery/status)"
 fi
 
-jq -n "{capacity: $capacity, text: \"$text\", status: \"$status\"}"
+jq -nc "{capacity: $capacity, text: \"$text\", status: \"$status\"}"

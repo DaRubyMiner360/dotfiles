@@ -1,5 +1,5 @@
 (defvar battery_reveal -1)
-(defpoll battery_info :interval "5s" :initial 0 `scripts/get_first_available_battery.sh`)
+(defpoll battery_info :interval "5s" :initial `{"capacity":100,"text":"Loading...","status":"Loading"}` `scripts/get_first_available_battery.sh`)
 
 (defwidget battery_meter [monitor]
   (eventbox
