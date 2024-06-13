@@ -109,14 +109,14 @@ $rounded_medium: 8px;
 
 .tray {
   all: unset;
-  padding-left: 0px;
-  padding-right: 15px;
-  border-color: transparent;
-  border-top-right-radius: $rounded_large;
-  border-bottom-right-radius: $rounded_large;
-
-  &:hover {
-    background-color: $background_accent;
+  padding-left: 5px;
+  // padding-right: 15px;
+  
+  * {
+    &:hover {
+      border-radius: $rounded_small;
+      background-color: $background_accent;
+    }
   }
 }
 

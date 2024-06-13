@@ -43,5 +43,6 @@ fi
 
 convert "$bg" ~/.cache/current_wallpaper.png
 
-swww init --format xrgb 2> /dev/null
+swww-daemon 2> /dev/null
+# swww-daemon --format xrgb 2> /dev/null
 swww img "$bg" --transition-type $TRANSITION_TYPE --transition-duration $transition_duration --transition-fps $TRANSITION_FPS --transition-step $TRANSITION_STEP --transition-angle $transition_angle --transition-wave $transition_wave_x,$transition_wave_y $fill_color_flag $outputs_flag

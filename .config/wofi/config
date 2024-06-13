@@ -11,7 +11,7 @@ columns=1
 ## Geometry
 width=30%
 height=60%
-location=0
+location=center
 orientation=vertical
 halign=fill
 line_wrap=off
