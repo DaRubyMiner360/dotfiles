@@ -112,9 +112,9 @@ $rounded_medium: 8px;
   padding-left: 5px;
   // padding-right: 15px;
   
-  * {
+  > * {
     &:hover {
-      border-radius: $rounded_small;
+      border-radius: $rounded_medium;
       background-color: $background_accent;
     }
   }

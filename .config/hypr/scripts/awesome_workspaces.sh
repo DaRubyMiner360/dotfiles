@@ -42,6 +42,9 @@ add_to_monitor_workspace_map() {
 map_workspaces_to_monitors() {
   monitor_workspace_map=()
 
+  originally_focused_monitor_id=$(hyprctl activeworkspace -j | jq '.monitorID')
+  originally_focused_workspace_id=$(hyprctl activeworkspace -j | jq '.id')
+
   workspace_index=1
   for row in $(hyprctl monitors -j | jq -r '.[] | @base64'); do
     monitor=$(echo $row | base64 --decode)
@@ -62,12 +65,15 @@ map_workspaces_to_monitors() {
       fi
     done
 
-    if [ $KEEP_FOCUSED != true ]; then
+    if [ $KEEP_FOCUSED != true ] || [ $(echo $monitor | jq -r '.activeWorkspace.id') -lt $((workspace_index + 1)) ] || [ $(echo $monitor | jq -r '.activeWorkspace.id') -gt $((workspace_index + 1 + WORKSPACES_PER_MONITOR)) ]; then      hyprctl dispatch focusmonitor $monitor_id
       hyprctl dispatch workspace $workspace_index
     fi
     workspace_index=$((workspace_index + WORKSPACES_PER_MONITOR))
   done
   write_monitor_workspace_map
+
+  hyprctl dispatch focusmonitor $originally_focused_monitor_id
+  hyprctl dispatch workspace $originally_focused_workspace_id
 }
 
 get_workspace_from_monitor() {

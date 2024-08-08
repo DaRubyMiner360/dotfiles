@@ -1,7 +1,7 @@
 (defpoll seconds :interval "1s" `date '+%S'`)
 (defpoll minutes :interval "1s" `date '+%M'`)
-(defpoll hours :interval "1m" `date '+%I'`)
-(defpoll ampm :interval "1m" `date '+%p'`)
+(defpoll hours :interval "1s" `date '+%I'`)
+(defpoll ampm :interval "1s" `date '+%p'`)
 
 (defpoll clock_date :interval "1m" `date '+%a %b %d'`)
 

@@ -11,7 +11,9 @@ while true; do
     echo "Current Monitors: $current_monitors"
     echo "Removed Monitors: $removed_monitors"
     echo ""
-    removed_monitors="[]"
+
+    sleep 1
+    continue
   fi
   if [ "$removed_monitors" != "[]" ]; then
     echo "Previous Monitors: $previous_monitors"
