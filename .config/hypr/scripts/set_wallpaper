@@ -41,7 +41,7 @@ else
   outputs_flag="--outputs $3"
 fi
 
-convert "$bg" ~/.cache/current_wallpaper.png
+magick "$bg" ~/.cache/current_wallpaper.png
 
 swww-daemon 2> /dev/null
 # swww-daemon --format xrgb 2> /dev/null
