@@ -20,14 +20,14 @@ TRANSITION_WAVE_MAX=180
 TRANSITION_WAVE_INCREMENT=0.01
 
 if [ $# -lt 1 ] || [ "$1" = "" ]; then
-  bg="$(find "$DIR" -name '*.jpg' -o -name '*.png' | shuf -n1)"
+  bg="$(find "$DIR" -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' | shuf -n1)"
 else
   bg="$1"
 fi
-transition_duration=$(seq $TRANSITION_DURATION_MIN $TRANSITION_DURATION_INCREMENT $TRANSITION_DURATION_MAX | shuf | head -n1)
-transition_angle=$(seq $TRANSITION_ANGLE_MIN $TRANSITION_ANGLE_INCREMENT $TRANSITION_ANGLE_MAX | shuf | head -n1)
-transition_wave_x=$(seq $TRANSITION_WAVE_MIN $TRANSITION_WAVE_INCREMENT $TRANSITION_WAVE_MAX | shuf | head -n1)
-transition_wave_y=$(seq $TRANSITION_WAVE_MIN $TRANSITION_WAVE_INCREMENT $TRANSITION_WAVE_MAX | shuf | head -n1)
+transition_duration=$(seq $TRANSITION_DURATION_MIN $TRANSITION_DURATION_INCREMENT $TRANSITION_DURATION_MAX | shuf -n1)
+transition_angle=$(seq $TRANSITION_ANGLE_MIN $TRANSITION_ANGLE_INCREMENT $TRANSITION_ANGLE_MAX | shuf -n1)
+transition_wave_x=$(seq $TRANSITION_WAVE_MIN $TRANSITION_WAVE_INCREMENT $TRANSITION_WAVE_MAX | shuf -n1)
+transition_wave_y=$(seq $TRANSITION_WAVE_MIN $TRANSITION_WAVE_INCREMENT $TRANSITION_WAVE_MAX | shuf -n1)
 
 if [ $# -lt 2 ] || [ "$2" = "" ]; then
   fill_color_flag=""
