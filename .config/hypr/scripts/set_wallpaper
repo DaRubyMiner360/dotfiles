@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DIR="${HOME}/.config/hypr/wallpapers"
+DIR="$HOME/.config/hypr/wallpapers"
+CURRENT_WALLPAPER="$HOME/.cache/current_wallpaper.png"
 
 TRANSITION_TYPE="any"
 TRANSITION_DURATION_MIN=0.5
@@ -41,7 +42,8 @@ else
   outputs_flag="--outputs $3"
 fi
 
-magick "$bg" ~/.cache/current_wallpaper.png
+rm "$CURRENT_WALLPAPER" 2> /dev/null
+magick "$bg" "$CURRENT_WALLPAPER"
 
 swww-daemon 2> /dev/null
 # swww-daemon --format xrgb 2> /dev/null
